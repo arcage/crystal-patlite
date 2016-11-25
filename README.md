@@ -23,7 +23,7 @@ patlite_port = 10000
 # initialize host(ip) and port for a signal tower
 patlite = Patlite::PHN.new(patlite_host, patlite_port)
 
-# set warning light status
+# set signal tower statuses
 #
 # You can set:
 # - Light setting: `{{COLOR}}_{{PATTERN}}`
@@ -48,7 +48,7 @@ puts status
 
 sleep(2)
 
-# add signal tower statuses to current setting
+# add signal tower statuses to current settings
 patlite.add do
   green_flash
   beep_off
