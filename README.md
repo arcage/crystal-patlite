@@ -41,7 +41,7 @@ end
 
 # get signal tower statuses
 status = patlite.status
-status.red          #=> :on
+status.red          #=> Patlite::PHN::Status::Light::ON
 status.beep_short?  #=> false
 puts status
 #=> "RED:on / YELLOW:off / GREEN:off / BEEP:long"
