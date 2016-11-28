@@ -16,7 +16,7 @@ class DummyPatlite
         case com
         when 0x57u8
           if status = client.read_byte
-            set_status(status)
+            @status = status
             client.write "ACK".to_slice
           else
             client.write "NAK".to_slice
@@ -32,11 +32,6 @@ class DummyPatlite
   ensure
     @socket.close
   end
-
-  def set_status(status : UInt8)
-    status.to_s(2).rjust(8, '0')
-    @status = status
-  end
 end
 
 spawn do
@@ -46,7 +41,6 @@ end
 sleep 1
 
 describe Patlite::PHN do
-
   patlite = Patlite::PHN.new("127.0.0.1", 10000)
 
   describe "#status" do
@@ -54,7 +48,6 @@ describe Patlite::PHN do
       patlite.status.code.should eq DummyPatlite::DEFAULT_STATUS
     end
   end
-
 
   describe "#clear" do
     it "tuen all of signal tower status to off" do
@@ -82,11 +75,9 @@ describe Patlite::PHN do
       status.beep_short?.should be_true
     end
   end
-
 end
 
 describe Patlite::PHN::Status do
-
   describe ".new" do
     it "uses an argument as an internal status code" do
       Patlite::PHN::Status.new(129u8).code.should eq 129u8
@@ -113,7 +104,7 @@ describe Patlite::PHN::Status do
     end
   end
 
-  {% for color in %i{ red yellow green } %}
+  {% for color in %i(red yellow green) %}
     describe "#"+"{{color.id}}" do
       it "returns {{color.id}} light status" do
         Patlite::PHN::Status.new.{{color.id}}.should eq Patlite::PHN::Status::Light::OFF
@@ -237,6 +228,4 @@ describe Patlite::PHN::Status do
       status.beep.should eq Patlite::PHN::Status::Beep::LONG
     end
   end
-
-
 end

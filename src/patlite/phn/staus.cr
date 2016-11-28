@@ -1,7 +1,6 @@
 module Patlite
   class PHN
     class Status
-
       RED_ON       = 0b00000001u8
       YELLOW_ON    = 0b00000010u8
       GREEN_ON     = 0b00000100u8
@@ -42,7 +41,7 @@ module Patlite
         self
       end
 
-      {% for color in %i{ red yellow green } %}
+      {% for color in %i(red yellow green) %}
         def {{color.id}}_off
           @code = @code & ~{{color.id.upcase}}_ON
           @code = @code & ~{{color.id.upcase}}_FLASH
@@ -151,7 +150,7 @@ module Patlite
         flags << "BEEP_SHORT" if beep_short?
         flags << "BEEP_LONG" if beep_long?
         flag = flags.empty? ? "OFF" : flags.join(" | ")
-        io << "#<#{self.class.name}: " << flag <<  ">"
+        io << "#<#{self.class.name}: " << flag << ">"
       end
     end
   end

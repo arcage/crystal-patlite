@@ -2,7 +2,6 @@ require "./phn/*"
 
 module Patlite
   class PHN
-
     def initialize(@host : String, @port : Int32)
     end
 
